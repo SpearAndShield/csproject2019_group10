@@ -1,0 +1,175 @@
+Copyright 1986-2018 Xilinx, Inc. All Rights Reserved.
+----------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2018.3 (win64) Build 2405991 Thu Dec  6 23:38:27 MST 2018
+| Date         : Sun Jul 28 02:44:01 2019
+| Host         : zzt running 64-bit major release  (build 9200)
+| Command      : report_control_sets -verbose -file thinpad_top_control_sets_placed.rpt
+| Design       : thinpad_top
+| Device       : xc7a100t
+----------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Number of unique control sets                            |   102 |
+| Unused register locations in slices containing registers |   211 |
++----------------------------------------------------------+-------+
+
+
+2. Histogram
+------------
+
++--------+--------------+
+| Fanout | Control Sets |
++--------+--------------+
+|      1 |            5 |
+|      3 |            2 |
+|      4 |            3 |
+|      5 |            1 |
+|      6 |            1 |
+|      8 |            2 |
+|     10 |            1 |
+|     11 |            2 |
+|     12 |            2 |
+|    16+ |           83 |
++--------+--------------+
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |             124 |           60 |
+| No           | No                    | Yes                    |              31 |           11 |
+| No           | Yes                   | No                     |             319 |          120 |
+| Yes          | No                    | No                     |             142 |           50 |
+| Yes          | No                    | Yes                    |            1000 |          433 |
+| Yes          | Yes                   | No                     |            2101 |         1043 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++-------------------------------------------------------+-------------------------------------------------------------+-------------------------------------------------------------+------------------+----------------+
+|                      Clock Signal                     |                        Enable Signal                        |                       Set/Reset Signal                      | Slice Load Count | Bel Load Count |
++-------------------------------------------------------+-------------------------------------------------------------+-------------------------------------------------------------+------------------+----------------+
+|  flash_controler/flashData_bus_IOBUF[15]_inst_i_4_n_2 |                                                             |                                                             |                1 |              1 |
+|  flash_controler/lowBitMode_n_o_reg_i_2_n_2           |                                                             | reset_of_clk10M                                             |                1 |              1 |
+|  sram_controller/writeEnable_n_o_reg_i_2_n_2          |                                                             | reset_of_clk10M                                             |                1 |              1 |
+|  clock_gen/inst/clk_out1                              | uart_controller/ext_uart_r/tickgen/tick                     |                                                             |                1 |              1 |
+|  clock_gen/inst/clk_out1                              |                                                             | reset_of_clk10M_i_1_n_2                                     |                1 |              1 |
+|  clock_gen/inst/clk_out3                              |                                                             | reset_of_clk10M                                             |                1 |              3 |
+|  clock_gen/inst/clk_out2                              |                                                             | reset_of_clk10M                                             |                2 |              3 |
+|  flash_controler/flashEnable_n_o_reg_i_2_n_2          |                                                             | reset_of_clk10M                                             |                2 |              4 |
+|  mmu/p_2_in                                           |                                                             |                                                             |                2 |              4 |
+|  clock_gen/inst/clk_out1                              |                                                             | cpu/openmips0/cp0_reg0/cause_o[14]_i_1_n_2                  |                1 |              4 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/cp0_reg0/cause_o1_out[6]                      |                                                             |                3 |              5 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/div0/cnt[5]_i_2_n_2                           | cpu/openmips0/div0/cnt[5]_i_1_n_2                           |                2 |              6 |
+|  clock_gen/inst/clk_out1                              | uart_controller/ext_uart_r/RxD_data0                        |                                                             |                4 |              8 |
+|  clock_gen/inst/clk_out1                              | uart_controller/ext_uart_t/TxD_shift[7]_i_1_n_2             |                                                             |                2 |              8 |
+|  clock_gen/inst/clk_out4                              |                                                             |                                                             |                8 |             10 |
+|  clock_gen/inst/clk_out1                              | uart_controller/ext_uart_t/FSM_onehot_TxD_state[10]_i_1_n_2 |                                                             |                2 |             11 |
+|  clock_gen/inst/clk_out1                              | uart_controller/ext_uart_r/FSM_onehot_RxD_state[10]_i_1_n_2 |                                                             |                2 |             11 |
+|  clock_gen/inst/clk_out4                              | vga800x600at75/vdata_ahead                                  | reset_of_clk10M                                             |                2 |             12 |
+|  clock_gen/inst/clk_out4                              | vga800x600at75/vdata                                        | reset_of_clk10M                                             |                4 |             12 |
+|  flash_controler/flashData_o_reg[15]_i_1_n_2          |                                                             |                                                             |                5 |             16 |
+|  clock_gen/inst/clk_out1                              |                                                             | uart_controller/ext_uart_t/FSM_onehot_TxD_state_reg_n_2_[0] |                5 |             17 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/cp0_reg0/cause_o1_out[8]                      | reset_of_clk10M                                             |               13 |             20 |
+|  flash_controler/flashAddr_o_reg[22]_i_2_n_2          |                                                             | reset_of_clk10M                                             |                9 |             23 |
+|  clock_gen/inst/clk_out4                              |                                                             | reset_of_clk10M                                             |                7 |             24 |
+|  sram_controller/ramAddr_o_reg[19]_i_2_n_2            |                                                             | reset_of_clk10M                                             |                8 |             26 |
+|  clock_gen/inst/clk_out1                              |                                                             |                                                             |               13 |             28 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/cp0_reg0/p_1_in                               | reset_of_clk10M                                             |               16 |             31 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[10][31]_i_1_n_2                 | reset_of_clk10M                                             |               14 |             32 |
+|  sram_controller/n_1_22_BUFG                          |                                                             |                                                             |               16 |             32 |
+|  cpu/openmips0/mem0/ram_ce_o                          |                                                             | reset_of_clk10M                                             |               12 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[12][31]_i_1_n_2                 | reset_of_clk10M                                             |               16 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[17][31]_i_1_n_2                 | reset_of_clk10M                                             |               22 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[19][7]_i_1_n_2                  | reset_of_clk10M                                             |               11 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[23][31]_i_1_n_2                 | reset_of_clk10M                                             |               21 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[7][31]_i_1_n_2                  | reset_of_clk10M                                             |               19 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[25][31]_i_1_n_2                 | reset_of_clk10M                                             |               18 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[26][31]_i_1_n_2                 | reset_of_clk10M                                             |               21 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[30][31]_i_1_n_2                 | reset_of_clk10M                                             |               23 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[16][31]_i_1_n_2                 | reset_of_clk10M                                             |               13 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/cp0_reg0/entrylo1_o[25]_i_1_n_2               | reset_of_clk10M                                             |               16 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/cp0_reg0/entryhi_o[31]_i_1_n_2                | reset_of_clk10M                                             |               13 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/cp0_reg0/entrylo0_o[25]_i_1_n_2               | reset_of_clk10M                                             |               11 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/cp0_reg0/ebase_o[31]_i_1_n_2                  | reset_of_clk10M                                             |               17 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/cp0_reg0/epc_o[31]_i_1_n_2                    | reset_of_clk10M                                             |                9 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/cp0_reg0/index_o[3]_i_1_n_2                   | reset_of_clk10M                                             |               15 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/cp0_reg0/random_o[3]_i_1_n_2                  | reset_of_clk10M                                             |               22 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/cp0_reg0/pagemask                             | reset_of_clk10M                                             |               10 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/cp0_reg0/watchlo                              | reset_of_clk10M                                             |               14 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/cp0_reg0/watchhi                              | reset_of_clk10M                                             |               11 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/cp0_reg0/badaddr[31]_i_1_n_2                  | reset_of_clk10M                                             |               13 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/cp0_reg0/compare[31]_i_1_n_2                  | reset_of_clk10M                                             |                9 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[24][31]_i_1_n_2                 | reset_of_clk10M                                             |               14 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/ex_mem0/mem_pc[31]_i_2_n_2                    | cpu/openmips0/ex_mem0/mem_pc[31]_i_1_n_2                    |                7 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/pc_reg0/pc[31]_i_1_n_2                        | reset_of_clk10M                                             |               14 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[5][31]_i_1_n_2                  | reset_of_clk10M                                             |               15 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[15][31]_i_1_n_2                 | reset_of_clk10M                                             |               18 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[8][31]_i_1_n_2                  | reset_of_clk10M                                             |               15 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[9][31]_i_1_n_2                  | reset_of_clk10M                                             |               25 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[13][31]_i_1_n_2                 | reset_of_clk10M                                             |               13 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[22][31]_i_1_n_2                 | reset_of_clk10M                                             |               18 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[21][31]_i_1_n_2                 | reset_of_clk10M                                             |               16 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[14][31]_i_1_n_2                 | reset_of_clk10M                                             |               13 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[28][31]_i_1_n_2                 | reset_of_clk10M                                             |               18 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[27][31]_i_1_n_2                 | reset_of_clk10M                                             |               19 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[18][31]_i_1_n_2                 | reset_of_clk10M                                             |               18 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[6][31]_i_1_n_2                  | reset_of_clk10M                                             |               21 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[20][31]_i_1_n_2                 | reset_of_clk10M                                             |               15 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[11][31]_i_1_n_2                 | reset_of_clk10M                                             |               15 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[3][31]_i_1_n_2                  | reset_of_clk10M                                             |               19 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[2][31]_i_1_n_2                  | reset_of_clk10M                                             |               16 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[31][31]_i_1_n_2                 | reset_of_clk10M                                             |               26 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[29][31]_i_1_n_2                 | reset_of_clk10M                                             |               23 |             32 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[1][31]_i_1_n_2                  | reset_of_clk10M                                             |               17 |             32 |
+|  sram_controller/n_0_17_BUFG                          |                                                             |                                                             |               15 |             33 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/div0/temp2[32]_i_1_n_2                        |                                                             |                9 |             33 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/id_ex0/ex_is_in_delayslot_i_2_n_2             | cpu/openmips0/id_ex0/ex_is_in_delayslot_i_1_n_2             |                8 |             33 |
+| ~cpu/openmips0/mem0/ram_ce_o                          |                                                             | reset_of_clk10M                                             |               12 |             35 |
+|  clock_gen/inst/clk_out1                              |                                                             | reset_of_clk10M                                             |               10 |             35 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/regfile0/regs[4][15]_i_1_n_2                  | reset_of_clk10M                                             |               28 |             48 |
+|  clock_gen/inst/clk_out1                              | mmu/tlb0/tlbTable[12][62]_i_1_n_2                           | reset_of_clk10M                                             |               24 |             61 |
+|  clock_gen/inst/clk_out1                              | mmu/tlb0/tlbTable[1][62]_i_1_n_2                            | reset_of_clk10M                                             |               23 |             61 |
+|  clock_gen/inst/clk_out1                              | mmu/tlb0/tlbTable[3][62]_i_1_n_2                            | reset_of_clk10M                                             |               29 |             61 |
+|  clock_gen/inst/clk_out1                              | mmu/tlb0/tlbTable[6][62]_i_1_n_2                            | reset_of_clk10M                                             |               24 |             61 |
+|  clock_gen/inst/clk_out1                              | mmu/tlb0/tlbTable[5][62]_i_1_n_2                            | reset_of_clk10M                                             |               28 |             61 |
+|  clock_gen/inst/clk_out1                              | mmu/tlb0/tlbTable[7][62]_i_1_n_2                            | reset_of_clk10M                                             |               31 |             61 |
+|  clock_gen/inst/clk_out1                              | mmu/tlb0/tlbTable[14][62]_i_1_n_2                           | reset_of_clk10M                                             |               25 |             61 |
+|  clock_gen/inst/clk_out1                              | mmu/tlb0/tlbTable[13][62]_i_1_n_2                           | reset_of_clk10M                                             |               26 |             61 |
+|  clock_gen/inst/clk_out1                              | mmu/tlb0/tlbTable[11][62]_i_1_n_2                           | reset_of_clk10M                                             |               25 |             61 |
+|  clock_gen/inst/clk_out1                              | mmu/tlb0/tlbTable[2][62]_i_1_n_2                            | reset_of_clk10M                                             |               26 |             61 |
+|  clock_gen/inst/clk_out1                              | mmu/tlb0/tlbTable[15][62]_i_1_n_2                           | reset_of_clk10M                                             |               29 |             61 |
+|  clock_gen/inst/clk_out1                              | mmu/tlb0/tlbTable[10][62]_i_1_n_2                           | reset_of_clk10M                                             |               26 |             61 |
+|  clock_gen/inst/clk_out1                              | mmu/tlb0/tlbTable[9][62]_i_1_n_2                            | reset_of_clk10M                                             |               31 |             61 |
+|  clock_gen/inst/clk_out1                              | mmu/tlb0/tlbTable[8][62]_i_1_n_2                            | reset_of_clk10M                                             |               28 |             61 |
+|  clock_gen/inst/clk_out1                              | mmu/tlb0/tlbTable[4][62]_i_1_n_2                            | reset_of_clk10M                                             |               29 |             61 |
+|  clock_gen/inst/clk_out1                              | mmu/tlb0/tlbTable[0][62]_i_1_n_2                            | reset_of_clk10M                                             |               23 |             61 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/div0/result[63]_i_2_n_2                       | cpu/openmips0/div0/result[63]_i_1_n_2                       |               26 |             64 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/mem_wb0/wb_whio                               | reset_of_clk10M                                             |               32 |             64 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/div0/divtemp[64]_i_1_n_2                      |                                                             |               27 |             65 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/ctrl0/stall[0]                                | cpu/openmips0/if_id0/id_pc[31]_i_1_n_2                      |               32 |             69 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/ctrl0/stall[0]                                | cpu/openmips0/id_ex0/ex_alusel[2]_i_1_n_2                   |               55 |            139 |
+|  clock_gen/inst/clk_out1                              |                                                             | cpu/openmips0/mem_wb0/wb_wd[4]_i_1_n_2                      |               59 |            141 |
+|  clock_gen/inst/clk_out1                              | cpu/openmips0/ctrl0/stall[3]                                | cpu/openmips0/ex_mem0/mem_wd[4]_i_1_n_2                     |              118 |            219 |
++-------------------------------------------------------+-------------------------------------------------------------+-------------------------------------------------------------+------------------+----------------+
+
+
