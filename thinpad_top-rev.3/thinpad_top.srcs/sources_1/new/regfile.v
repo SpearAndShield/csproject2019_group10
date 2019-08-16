@@ -20,7 +20,7 @@ module regfile(
     output reg[`RegBus] rdata2
  );
     
-	reg[`RegBus] regs[0:`RegNum-1] //32位寄存器
+	reg[`RegBus] regs[0:`RegNum-1]; //32位寄存器
 
     always @ (posedge clk) begin
         if (rst == `RstDisable) begin

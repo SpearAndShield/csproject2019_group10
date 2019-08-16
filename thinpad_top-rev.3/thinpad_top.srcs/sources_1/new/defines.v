@@ -61,5 +61,6 @@
  `define RegWidth       32
  `define DoubleRegWitdh     64
  `define DoubleRegBus       63:0
- `define RegNum     5
+ `define RegNum     32
+ `define RegNumLog2     5
  `define NOPRegAddr     5'b00000
