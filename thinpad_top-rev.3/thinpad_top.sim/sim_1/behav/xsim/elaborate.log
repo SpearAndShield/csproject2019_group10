@@ -1,37 +1,7 @@
 Vivado Simulator 2018.3
 Copyright 1986-1999, 2001-2018 Xilinx, Inc. All Rights Reserved.
-Running: D:/Xilinx/Vivado/2018.3/bin/unwrapped/win64.o/xelab.exe -wto 1e0777dd008c45fcbaffd6b18f2c35e9 --incr --debug typical --relax --mt 2 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot x28fxxxp30_behav xil_defaultlib.x28fxxxp30 xil_defaultlib.glbl -log elaborate.log 
+Running: C:/Xilinx/Vivado/2018.3/bin/unwrapped/win64.o/xelab.exe -wto 1e0777dd008c45fcbaffd6b18f2c35e9 --incr --debug typical --relax --mt 2 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot thinpad_min_sopc_tb_behav xil_defaultlib.thinpad_min_sopc_tb xil_defaultlib.glbl -log elaborate.log 
 Using 2 slave threads.
 Starting static elaboration
-WARNING: [VRFC 10-3363] function 'getTime' has no return value assignment [C:/Users/yilin/Desktop/csproject2019_group10/thinpad_top-rev.3/thinpad_top.srcs/sim_1/new/include/TimingData.h:182]
 Completed static elaboration
-Starting simulation data flow analysis
-Completed simulation data flow analysis
-Time Resolution for simulation is 1ps
-Compiling module xil_defaultlib.DataErrorModule
-Compiling module xil_defaultlib.CUIdecoder1_2
-Compiling module xil_defaultlib.CUIdecoder_Busy1_1
-Compiling module xil_defaultlib.CUIdecoder2_2
-Compiling module xil_defaultlib.KernelModule_1
-Compiling module xil_defaultlib.ReadModule_1
-Compiling module xil_defaultlib.OutputBufferModule_1
-Compiling module xil_defaultlib.StatusRegModule_1
-Compiling module xil_defaultlib.MemoryModule_1
-Compiling module xil_defaultlib.ProgramModule_1
-Compiling module xil_defaultlib.BuffEnhancedFactProgramModule_1
-Compiling module xil_defaultlib.ProtectRegModule_1
-Compiling module xil_defaultlib.EraseModule_1
-Compiling module xil_defaultlib.BlankCheckModule_1
-Compiling module xil_defaultlib.BlockLockModule_1
-Compiling module xil_defaultlib.ProgramBufferModule_1
-Compiling module xil_defaultlib.SignatureModule_1
-Compiling module xil_defaultlib.CFIqueryModule_1
-Compiling module xil_defaultlib.ConfigRegModule_1
-Compiling module xil_defaultlib.BurstModule_1
-Compiling module xil_defaultlib.BankLib
-Compiling module xil_defaultlib.TimingDataModule
-Compiling module xil_defaultlib.TimingLibModule_1
-Compiling module xil_defaultlib.DebugModule
-Compiling module xil_defaultlib.x28fxxxp30
-Compiling module xil_defaultlib.glbl
-Built simulation snapshot x28fxxxp30_behav
+INFO: [XSIM 43-4323] No Change in HDL. Linking previously generated obj files to create kernel

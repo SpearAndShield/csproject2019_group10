@@ -33,7 +33,7 @@ module thinpad_min_sopc(
   wire rom_ce;
  
 
- openmips openmips0(
+ thinpad_top thinpad_top0(
 		.clk(clk),
 		.rst(rst),
 	
