@@ -2,43 +2,29 @@
 # Vivado v2018.3 (64-bit)
 # SW Build 2405991 on Thu Dec  6 23:38:27 MST 2018
 # IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
-# Start of session at: Sat Aug 17 22:36:35 2019
-# Process ID: 7712
-# Current directory: C:/csproject2019_group10/thinpad_top-rev.3
-# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent7132 C:\csproject2019_group10\thinpad_top-rev.3\thinpad_top.xpr
-# Log file: C:/csproject2019_group10/thinpad_top-rev.3/vivado.log
-# Journal file: C:/csproject2019_group10/thinpad_top-rev.3\vivado.jou
+# Start of session at: Mon Aug 19 19:14:10 2019
+# Process ID: 6016
+# Current directory: C:/thinpad_top-rev.3/thinpad_top-rev.3
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent888 C:\thinpad_top-rev.3\thinpad_top-rev.3\thinpad_top.xpr
+# Log file: C:/thinpad_top-rev.3/thinpad_top-rev.3/vivado.log
+# Journal file: C:/thinpad_top-rev.3/thinpad_top-rev.3\vivado.jou
 #-----------------------------------------------------------
 start_gui
-open_project C:/csproject2019_group10/thinpad_top-rev.3/thinpad_top.xpr
+open_project C:/thinpad_top-rev.3/thinpad_top-rev.3/thinpad_top.xpr
 update_compile_order -fileset sources_1
-export_ip_user_files -of_objects  [get_files C:/csproject2019_group10/thinpad_top-rev.3/thinpad_top.srcs/sim_1/new/28F640P30.v] -no_script -reset -force -quiet
-remove_files  -fileset sim_1 C:/csproject2019_group10/thinpad_top-rev.3/thinpad_top.srcs/sim_1/new/28F640P30.v
-update_compile_order -fileset sim_1
-update_compile_order -fileset sim_1
+add_files -norecurse {C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/thinpad_min_sopc_tb.v C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/inst_rom.v C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/regfile.v C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/id_ex.v C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/ex.v C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/ex_mem.v C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/id.v C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/mem.v C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/mem_wb.v C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/thinpad_top.v C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/pc_reg.v C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/defines.v C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/thinpad_min_sopc.v C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/SEG7_LUT.v C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/if_id.v}
 update_compile_order -fileset sources_1
-# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
-set_property source_mgmt_mode None [current_project]
-set_property top thinpad_min_sopc_tb [get_filesets sim_1]
-set_property top_lib xil_defaultlib [get_filesets sim_1]
-# Re-enabling previously disabled source management mode.
-set_property source_mgmt_mode All [current_project]
-update_compile_order -fileset sim_1
-# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
-set_property source_mgmt_mode None [current_project]
-set_property top thinpad_min_sopc [current_fileset]
-# Re-enabling previously disabled source management mode.
-set_property source_mgmt_mode All [current_project]
 update_compile_order -fileset sources_1
-launch_simulation
-launch_simulation
-source thinpad_min_sopc_tb.tcl
-run 10 us
-run 20 us
-run 20 us
-run 20 us
-run 100 us
-run 100 us
-relaunch_sim
-run 1 s
-run 1000 ns
+export_ip_user_files -of_objects  [get_files C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/thinpad_min_sopc_tb.v] -no_script -reset -force -quiet
+remove_files  C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/thinpad_min_sopc_tb.v
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+export_ip_user_files -of_objects  [get_files C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/thinpad_min_sopc.v] -no_script -reset -force -quiet
+remove_files  C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/thinpad_min_sopc.v
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+export_ip_user_files -of_objects  [get_files C:/thinpad_top-rev.3/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/thinpad_top.v] -no_script -reset -force -quiet
+remove_files  C:/thinpad_top-rev.3/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/thinpad_top.v
+update_compile_order -fileset sources_1
+launch_runs synth_1
+wait_on_run synth_1

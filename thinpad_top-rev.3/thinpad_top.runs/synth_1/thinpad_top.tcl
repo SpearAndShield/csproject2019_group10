@@ -22,24 +22,24 @@ create_project -in_memory -part xc7a100tfgg676-2L
 set_param project.singleFileAddWarning.threshold 0
 set_param project.compositeFile.enableAutoGeneration 0
 set_param synth.vivado.isSynthRun true
-set_property webtalk.parent_dir C:/Users/yilin/Desktop/csproject2019_group10/thinpad_top-rev.3/thinpad_top.cache/wt [current_project]
-set_property parent.project_path C:/Users/yilin/Desktop/csproject2019_group10/thinpad_top-rev.3/thinpad_top.xpr [current_project]
+set_property webtalk.parent_dir C:/thinpad_top-rev.3/thinpad_top-rev.3/thinpad_top.cache/wt [current_project]
+set_property parent.project_path C:/thinpad_top-rev.3/thinpad_top-rev.3/thinpad_top.xpr [current_project]
 set_property default_lib xil_defaultlib [current_project]
 set_property target_language Verilog [current_project]
-set_property ip_output_repo c:/Users/yilin/Desktop/csproject2019_group10/thinpad_top-rev.3/thinpad_top.cache/ip [current_project]
+set_property ip_output_repo c:/thinpad_top-rev.3/thinpad_top-rev.3/thinpad_top.cache/ip [current_project]
 set_property ip_cache_permissions {read write} [current_project]
 read_verilog -library xil_defaultlib {
-  C:/Users/yilin/Desktop/csproject2019_group10/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/defines.v
-  C:/Users/yilin/Desktop/csproject2019_group10/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/ex.v
-  C:/Users/yilin/Desktop/csproject2019_group10/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/ex_mem.v
-  C:/Users/yilin/Desktop/csproject2019_group10/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/id.v
-  C:/Users/yilin/Desktop/csproject2019_group10/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/id_ex.v
-  C:/Users/yilin/Desktop/csproject2019_group10/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/if_id.v
-  C:/Users/yilin/Desktop/csproject2019_group10/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/mem.v
-  C:/Users/yilin/Desktop/csproject2019_group10/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/mem_wb.v
-  C:/Users/yilin/Desktop/csproject2019_group10/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/pc_reg.v
-  C:/Users/yilin/Desktop/csproject2019_group10/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/regfile.v
-  C:/Users/yilin/Desktop/csproject2019_group10/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/thinpad_top.v
+  C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/defines.v
+  C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/ex.v
+  C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/ex_mem.v
+  C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/id.v
+  C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/id_ex.v
+  C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/if_id.v
+  C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/mem.v
+  C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/mem_wb.v
+  C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/pc_reg.v
+  C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/regfile.v
+  C:/csproject2019_group10-master/thinpad_top-rev.3/thinpad_top.srcs/sources_1/new/thinpad_top.v
 }
 # Mark all dcp files as not used in implementation to prevent them from being
 # stitched into the results of this synthesis run. Any black boxes in the
@@ -49,8 +49,8 @@ read_verilog -library xil_defaultlib {
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
-read_xdc C:/Users/yilin/Desktop/csproject2019_group10/thinpad_top-rev.3/thinpad_top.srcs/constrs_1/new/thinpad_top.xdc
-set_property used_in_implementation false [get_files C:/Users/yilin/Desktop/csproject2019_group10/thinpad_top-rev.3/thinpad_top.srcs/constrs_1/new/thinpad_top.xdc]
+read_xdc C:/thinpad_top-rev.3/thinpad_top-rev.3/thinpad_top.srcs/constrs_1/new/thinpad_top.xdc
+set_property used_in_implementation false [get_files C:/thinpad_top-rev.3/thinpad_top-rev.3/thinpad_top.srcs/constrs_1/new/thinpad_top.xdc]
 
 set_param ips.enableIPCacheLiteLoad 1
 close [open __synthesis_is_running__ w]

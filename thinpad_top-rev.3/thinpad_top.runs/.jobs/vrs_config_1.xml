@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
 <Runs Version="1" Minor="0">
-	<Run Id="pll_example_synth_1" LaunchDir="C:/Users/yilin/Desktop/csproject2019_group10/thinpad_top-rev.3/thinpad_top.runs/pll_example_synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
-	<Run Id="synth_1" LaunchDir="C:/Users/yilin/Desktop/csproject2019_group10/thinpad_top-rev.3/thinpad_top.runs/synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado">
-		<Parent Id="pll_example_synth_1"/>
-	</Run>
+	<Run Id="synth_1" LaunchDir="C:/thinpad_top-rev.3/thinpad_top-rev.3/thinpad_top.runs/synth_1" FlowId="Vivado_Synthesis" FromStepId="vivado" ToStepId="vivado"/>
 	<Parameters>
 		<Parameter Name="runs.monitorLSFJobs" Val="true" Type="bool"/>
 	</Parameters>
