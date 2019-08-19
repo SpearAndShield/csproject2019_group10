@@ -1,0 +1,16 @@
+#-----------------------------------------------------------
+# Vivado v2018.3 (64-bit)
+# SW Build 2405991 on Thu Dec  6 23:38:27 MST 2018
+# IP Build 2404404 on Fri Dec  7 01:43:56 MST 2018
+# Start of session at: Mon Aug 19 22:42:55 2019
+# Process ID: 7028
+# Current directory: C:/thinpad_top-rev.3/thinpad_top-rev.3
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent4412 C:\thinpad_top-rev.3\thinpad_top-rev.3\thinpad_top.xpr
+# Log file: C:/thinpad_top-rev.3/thinpad_top-rev.3/vivado.log
+# Journal file: C:/thinpad_top-rev.3/thinpad_top-rev.3\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project C:/thinpad_top-rev.3/thinpad_top-rev.3/thinpad_top.xpr
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
