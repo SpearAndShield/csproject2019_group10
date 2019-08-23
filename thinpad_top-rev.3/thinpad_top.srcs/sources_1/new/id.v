@@ -24,7 +24,7 @@ module id(
 	input wire[`RegBus]           reg1_data_i,
 	input wire[`RegBus]           reg2_data_i,
 
-	
+	//是否为延迟槽指令
 	input wire                    is_in_delayslot_i,
 
 	//输出到regfile的信息
@@ -73,8 +73,10 @@ module id(
   reg excepttype_is_syscall;
   reg excepttype_is_eret;
   
-  assign pc_plus_8 = pc_i + 8;
-  assign pc_plus_4 = pc_i +4;
+  assign pc_plus_8 = pc_i + 8;//保存当前译码阶段后面第2条指令的地址
+  assign pc_plus_4 = pc_i +4;//保存当前姨妈阶段指令后面紧接着的指令地址
+
+  //offset左移两位再扩为32位
   assign imm_sll2_signedext = {{14{inst_i[15]}}, inst_i[15:0], 2'b00 };  
   assign stallreq = stallreq_for_reg1_loadrelate | stallreq_for_reg2_loadrelate;
   assign pre_inst_is_load = ((ex_aluop_i == `EXE_LB_OP) || 
@@ -113,13 +115,13 @@ module id(
 			branch_flag_o <= `NotBranch;
 			next_inst_in_delayslot_o <= `NotInDelaySlot;
 			excepttype_is_syscall <= `False_v;
-			excepttype_is_eret <= `False_v;								
+			excepttype_is_eret <= `False_v;							
 	  end else begin
 			aluop_o <= `EXE_NOP_OP;
 			alusel_o <= `EXE_RES_NOP;
-			wd_o <= inst_i[15:11];
+			wd_o <= inst_i[15:11]; //默认目的寄存器地址
 			wreg_o <= `WriteDisable;
-			instvalid <= `InstInvalid;	   
+			instvalid <= `InstInvalid;	  //默认时无效指令 
 			reg1_read_o <= 1'b0;
 			reg2_read_o <= 1'b0;
 			reg1_addr_o <= inst_i[25:21]; //默认通过regfile读端口1读取的寄存器地址
@@ -129,14 +131,14 @@ module id(
 			branch_target_address_o <= `ZeroWord;
 			branch_flag_o <= `NotBranch;	
 			next_inst_in_delayslot_o <= `NotInDelaySlot;
-			excepttype_is_syscall <= `False_v;	
-			excepttype_is_eret <= `False_v;					 			
+			excepttype_is_syscall <= `False_v;	//默认系统没有调用异常
+			excepttype_is_eret <= `False_v;		//默认不是eret指令				 			
 		  case (op)
-		    `EXE_SPECIAL_INST:		begin
-		    	case (op2)
+		    `EXE_SPECIAL_INST:		begin //指令码
+		    	case (op2) //op2=5'b00000
 		    		5'b00000:			begin
-		    			case (op3)
-		    				`EXE_OR:	begin //判断指令
+		    			case (op3) //依据功能码判断指令
+		    				`EXE_OR:	begin //判断指令         //OR指令
 							//将写使能开启，将结果写入目的寄存器
 		    					wreg_o <= `WriteEnable;	
 								//运算子类型是或	
@@ -149,24 +151,28 @@ module id(
 								reg2_read_o <= 1'b1;
 		  						instvalid <= `InstValid;	
 								end  
-		    				`EXE_AND:	begin
-		    					wreg_o <= `WriteEnable;		aluop_o <= `EXE_AND_OP;
-		  						alusel_o <= `EXE_RES_LOGIC;	  reg1_read_o <= 1'b1;	reg2_read_o <= 1'b1;	
+		    				`EXE_AND:	begin //AND指令
+		    					wreg_o <= `WriteEnable;		
+								aluop_o <= `EXE_AND_OP;
+		  						alusel_o <= `EXE_RES_LOGIC;	 //需要与操作 
+								  reg1_read_o <= 1'b1;	//两个读使能开启
+								  reg2_read_o <= 1'b1;	
 		  						instvalid <= `InstValid;	
 								end  	
-		    				`EXE_XOR:	begin
+		    				`EXE_XOR:	begin //XOR指令
 		    					wreg_o <= `WriteEnable;		aluop_o <= `EXE_XOR_OP;
 		  						alusel_o <= `EXE_RES_LOGIC;		reg1_read_o <= 1'b1;	reg2_read_o <= 1'b1;	
 		  						instvalid <= `InstValid;	
 								end  				
-		    				`EXE_NOR:	begin
+		    				`EXE_NOR:	begin  //NOR指令
 		    					wreg_o <= `WriteEnable;		aluop_o <= `EXE_NOR_OP;
 		  						alusel_o <= `EXE_RES_LOGIC;		reg1_read_o <= 1'b1;	reg2_read_o <= 1'b1;	
 		  						instvalid <= `InstValid;	
 								end 
 								`EXE_SLLV: begin
 									wreg_o <= `WriteEnable;		aluop_o <= `EXE_SLL_OP;
-		  						alusel_o <= `EXE_RES_SHIFT;		reg1_read_o <= 1'b1;	reg2_read_o <= 1'b1;
+		  						alusel_o <= `EXE_RES_SHIFT;	//需要进行左移操作
+								  	reg1_read_o <= 1'b1;	reg2_read_o <= 1'b1;
 		  						instvalid <= `InstValid;	
 								end 
 								`EXE_SRLV: begin
@@ -179,9 +185,10 @@ module id(
 		  						alusel_o <= `EXE_RES_SHIFT;		reg1_read_o <= 1'b1;	reg2_read_o <= 1'b1;
 		  						instvalid <= `InstValid;			
 		  					end
-								`EXE_MFHI: begin
+								`EXE_MFHI: begin 
 									wreg_o <= `WriteEnable;		aluop_o <= `EXE_MFHI_OP;
-		  						alusel_o <= `EXE_RES_MOVE;   reg1_read_o <= 1'b0;	reg2_read_o <= 1'b0;
+		  						alusel_o <= `EXE_RES_MOVE;  
+								   reg1_read_o <= 1'b0;	reg2_read_o <= 1'b0;//需要修改hi lo寄存器
 		  						instvalid <= `InstValid;	
 								end
 								`EXE_MFLO: begin
@@ -190,7 +197,8 @@ module id(
 		  						instvalid <= `InstValid;	
 								end
 								`EXE_MTHI: begin
-									wreg_o <= `WriteDisable;		aluop_o <= `EXE_MTHI_OP;
+									wreg_o <= `WriteDisable;//只需要更改hi lo寄存器，不需要更改通用寄存器	
+								aluop_o <= `EXE_MTHI_OP;
 		  						reg1_read_o <= 1'b1;	reg2_read_o <= 1'b0; instvalid <= `InstValid;	
 								end
 								`EXE_MTLO: begin
@@ -209,11 +217,12 @@ module id(
 								end
 								`EXE_MOVZ: begin
 									aluop_o <= `EXE_MOVZ_OP;
-		  						alusel_o <= `EXE_RES_MOVE;   reg1_read_o <= 1'b1;	reg2_read_o <= 1'b1;
+		  						alusel_o <= `EXE_RES_MOVE;   
+								  reg1_read_o <= 1'b1;	reg2_read_o <= 1'b1;//需要读取rs rt寄存器
 		  						instvalid <= `InstValid;
-								 	if(reg2_o == `ZeroWord) begin
+								 	if(reg2_o == `ZeroWord) begin//如果地址为rt的值为0，要将地址为rs的寄存器的值付给地址为rd的寄存器
 	 									wreg_o <= `WriteEnable;
-	 								end else begin
+	 								end else begin//反之不负值
 	 									wreg_o <= `WriteDisable;
 	 								end		  							
 								end
@@ -340,7 +349,8 @@ module id(
 					end									  
 		  	`EXE_ORI:			begin                        //ORI运算
 		  		wreg_o <= `WriteEnable;		aluop_o <= `EXE_OR_OP;
-		  		alusel_o <= `EXE_RES_LOGIC; reg1_read_o <= 1'b1;	reg2_read_o <= 1'b0;//不需要通过regfile读端口2读取寄存器  	
+		  		alusel_o <= `EXE_RES_LOGIC; 
+				  reg1_read_o <= 1'b1;	reg2_read_o <= 1'b0;//不需要通过regfile读端口2读取寄存器  	
 					//取立即数
 					imm <= {16'h0, inst_i[15:0]};		wd_o <= inst_i[20:16];
 					//设为有效指令
@@ -348,7 +358,8 @@ module id(
 		  	end
 		  	`EXE_ANDI:			begin
 		  		wreg_o <= `WriteEnable;		aluop_o <= `EXE_AND_OP;
-		  		alusel_o <= `EXE_RES_LOGIC;	reg1_read_o <= 1'b1;	reg2_read_o <= 1'b0;	  	
+		  		alusel_o <= `EXE_RES_LOGIC;	
+				  reg1_read_o <= 1'b1;	reg2_read_o <= 1'b0;//只需要一个读端口  	
 					imm <= {16'h0, inst_i[15:0]};		wd_o <= inst_i[20:16];		  	
 					instvalid <= `InstValid;	
 				end	 	

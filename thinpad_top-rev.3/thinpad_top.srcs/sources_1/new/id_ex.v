@@ -10,7 +10,7 @@ module id_ex(
 	input wire[5:0]							 stall,
 	input wire                   flush,
 	
-	//
+	//从译码阶段传递来的信息
 	input wire[`AluOpBus]         id_aluop,
 	input wire[`AluSelBus]        id_alusel,
 	input wire[`RegBus]           id_reg1,
@@ -24,7 +24,7 @@ module id_ex(
 	input wire[`RegBus]           id_current_inst_address,
 	input wire[31:0]              id_excepttype,
 	
-	//���ݵ�ִ�н׶ε���Ϣ
+	//传递到执行阶段的信息
 	output reg[`AluOpBus]         ex_aluop,
 	output reg[`AluSelBus]        ex_alusel,
 	output reg[`RegBus]           ex_reg1,
@@ -54,7 +54,7 @@ module id_ex(
 	    ex_inst <= `ZeroWord;	
 	    ex_excepttype <= `ZeroWord;
 	    ex_current_inst_address <= `ZeroWord;
-		end else if(flush == 1'b1 ) begin
+		end else if(flush == 1'b1 ) begin //清除流水线
 			ex_aluop <= `EXE_NOP_OP;
 			ex_alusel <= `EXE_RES_NOP;
 			ex_reg1 <= `ZeroWord;
@@ -66,7 +66,8 @@ module id_ex(
 			ex_inst <= `ZeroWord;
 			ex_is_in_delayslot <= `NotInDelaySlot;
 	    ex_current_inst_address <= `ZeroWord;	
-	    is_in_delayslot_o <= `NotInDelaySlot;		    
+	    is_in_delayslot_o <= `NotInDelaySlot;
+		//译码阶段暂停，执行阶段继续，空指令		    
 		end else if(stall[2] == `Stop && stall[3] == `NoStop) begin
 			ex_aluop <= `EXE_NOP_OP;
 			ex_alusel <= `EXE_RES_NOP;
@@ -79,7 +80,7 @@ module id_ex(
 	    ex_inst <= `ZeroWord;			
 	    ex_excepttype <= `ZeroWord;
 	    ex_current_inst_address <= `ZeroWord;	
-		end else if(stall[2] == `NoStop) begin		
+		end else if(stall[2] == `NoStop) begin	//译码阶段继续	
 			ex_aluop <= id_aluop;
 			ex_alusel <= id_alusel;
 			ex_reg1 <= id_reg1;
@@ -89,7 +90,7 @@ module id_ex(
 			ex_link_address <= id_link_address;
 			ex_is_in_delayslot <= id_is_in_delayslot;
 	    is_in_delayslot_o <= next_inst_in_delayslot_i;
-	    ex_inst <= id_inst;			
+	    ex_inst <= id_inst;		//在译码阶段没有暂停的情况下直接讲ID模块的输入通过接口ex_inst输出	
 	    ex_excepttype <= id_excepttype;
 	    ex_current_inst_address <= id_current_inst_address;		
 		end

@@ -11,7 +11,7 @@ module openmips(
 	output wire[`RegBus]           rom_addr_o,
 	output wire                    rom_ce_o,
 	
-  //�������ݴ洢��data_ram
+  //
 	input wire[`RegBus]           ram_data_i,
 	output wire[`RegBus]           ram_addr_o,
 	output wire[`RegBus]           ram_data_o,
@@ -22,12 +22,12 @@ module openmips(
 	output wire                    timer_int_o
 	
 );
-
+ //IF/ID
 	wire[`InstAddrBus] pc;
 	wire[`InstAddrBus] id_pc_i;
 	wire[`InstBus] id_inst_i;
 	
-	//��������׶�IDģ��������ID/EXģ�������
+	//ID ID/EX
 	wire[`AluOpBus] id_aluop_o;
 	wire[`AluSelBus] id_alusel_o;
 	wire[`RegBus] id_reg1_o;
@@ -40,7 +40,7 @@ module openmips(
   wire[31:0] id_excepttype_o;
   wire[`RegBus] id_current_inst_address_o;
 	
-	//����ID/EXģ��������ִ�н׶�EXģ�������
+	//
 	wire[`AluOpBus] ex_aluop_i;
 	wire[`AluSelBus] ex_alusel_i;
 	wire[`RegBus] ex_reg1_i;
@@ -53,7 +53,7 @@ module openmips(
   wire[31:0] ex_excepttype_i;	
   wire[`RegBus] ex_current_inst_address_i;	
 	
-	//����ִ�н׶�EXģ��������EX/MEMģ�������
+	//ID/EX EX
 	wire ex_wreg_o;
 	wire[`RegAddrBus] ex_wd_o;
 	wire[`RegBus] ex_wdata_o;
@@ -70,7 +70,7 @@ module openmips(
 	wire[`RegBus] ex_current_inst_address_o;
 	wire ex_is_in_delayslot_o;
 
-	//����EX/MEMģ��������ô�׶�MEMģ�������
+	//EX EX/MEM
 	wire mem_wreg_i;
 	wire[`RegAddrBus] mem_wd_i;
 	wire[`RegBus] mem_wdata_i;
@@ -87,7 +87,7 @@ module openmips(
 	wire mem_is_in_delayslot_i;
 	wire[`RegBus] mem_current_inst_address_i;	
 
-	//���ӷô�׶�MEMģ��������MEM/WBģ�������
+	//MEM MEM/WB
 	wire mem_wreg_o;
 	wire[`RegAddrBus] mem_wd_o;
 	wire[`RegBus] mem_wdata_o;
@@ -103,7 +103,7 @@ module openmips(
 	wire mem_is_in_delayslot_o;
 	wire[`RegBus] mem_current_inst_address_o;			
 	
-	//����MEM/WBģ���������д�׶ε�����	
+	//MEM/WB WB 
 	wire wb_wreg_i;
 	wire[`RegAddrBus] wb_wd_i;
 	wire[`RegBus] wb_wdata_i;
@@ -119,7 +119,7 @@ module openmips(
 	wire wb_is_in_delayslot_i;
 	wire[`RegBus] wb_current_inst_address_i;
 	
-	//��������׶�IDģ����ͨ�üĴ���Regfileģ��
+	//ID Regfile
   wire reg1_read;
   wire reg2_read;
   wire[`RegBus] reg1_data;
@@ -127,11 +127,11 @@ module openmips(
   wire[`RegAddrBus] reg1_addr;
   wire[`RegAddrBus] reg2_addr;
 
-	//����ִ�н׶���hiloģ����������ȡHI��LO�Ĵ���
+	//
 	wire[`RegBus] 	hi;
 	wire[`RegBus]   lo;
 
-  //����ִ�н׶���ex_regģ�飬���ڶ����ڵ�MADD��MADDU��MSUB��MSUBUָ��
+  //
 	wire[`DoubleRegBus] hilo_temp_o;
 	wire[1:0] cnt_o;
 	
@@ -174,7 +174,7 @@ module openmips(
 
   wire[`RegBus] latest_epc;
   
-  //pc_reg����
+  //pc_reg例化
 	pc_reg pc_reg0(
 		.clk(clk),
 		.rst(rst),
@@ -190,7 +190,7 @@ module openmips(
 	
   assign rom_addr_o = pc;
 
-  //IF/IDģ������
+  //IF/ID例化
 	if_id if_id0(
 		.clk(clk),
 		.rst(rst),
@@ -202,7 +202,7 @@ module openmips(
 		.id_inst(id_inst_i)      	
 	);
 	
-	//����׶�IDģ��
+	//译码阶段ID例化
 	id id0(
 		.rst(rst),
 		.pc_i(id_pc_i),
@@ -213,26 +213,26 @@ module openmips(
 		.reg1_data_i(reg1_data),
 		.reg2_data_i(reg2_data),
 
-	  //����ִ�н׶ε�ָ��Ҫд���Ŀ�ļĴ�����Ϣ
+	  
 		.ex_wreg_i(ex_wreg_o),
 		.ex_wdata_i(ex_wdata_o),
 		.ex_wd_i(ex_wd_o),
 
-	  //���ڷô�׶ε�ָ��Ҫд���Ŀ�ļĴ�����Ϣ
+	  
 		.mem_wreg_i(mem_wreg_o),
 		.mem_wdata_i(mem_wdata_o),
 		.mem_wd_i(mem_wd_o),
 
 	  .is_in_delayslot_i(is_in_delayslot_i),
 
-		//�͵�regfile����Ϣ
+		
 		.reg1_read_o(reg1_read),
 		.reg2_read_o(reg2_read), 	  
 
 		.reg1_addr_o(reg1_addr),
 		.reg2_addr_o(reg2_addr), 
 	  
-		//�͵�ID/EXģ�����Ϣ
+		
 		.aluop_o(id_aluop_o),
 		.alusel_o(id_alusel_o),
 		.reg1_o(id_reg1_o),
@@ -253,7 +253,7 @@ module openmips(
 		.stallreq(stallreq_from_id)		
 	);
 
-  //ͨ�üĴ���Regfile����
+  //regfile例化
 	regfile regfile1(
 		.clk (clk),
 		.rst (rst),
@@ -268,7 +268,7 @@ module openmips(
 		.rdata2 (reg2_data)
 	);
 
-	//ID/EXģ��
+	//ID/EX例化
 	id_ex id_ex0(
 		.clk(clk),
 		.rst(rst),
@@ -276,7 +276,7 @@ module openmips(
 		.stall(stall),
 		.flush(flush),
 		
-		//������׶�IDģ�鴫�ݵ���Ϣ
+		
 		.id_aluop(id_aluop_o),
 		.id_alusel(id_alusel_o),
 		.id_reg1(id_reg1_o),
@@ -290,7 +290,7 @@ module openmips(
 		.id_excepttype(id_excepttype_o),
 		.id_current_inst_address(id_current_inst_address_o),
 	
-		//���ݵ�ִ�н׶�EXģ�����Ϣ
+		
 		.ex_aluop(ex_aluop_i),
 		.ex_alusel(ex_alusel_i),
 		.ex_reg1(ex_reg1_i),
@@ -305,11 +305,11 @@ module openmips(
 		.ex_current_inst_address(ex_current_inst_address_i)		
 	);		
 	
-	//EXģ��
+	//EX例化
 	ex ex0(
 		.rst(rst),
 	
-		//�͵�ִ�н׶�EXģ�����Ϣ
+		
 		.aluop_i(ex_aluop_i),
 		.alusel_i(ex_alusel_i),
 		.reg1_i(ex_reg1_i),
@@ -339,12 +339,12 @@ module openmips(
 		.excepttype_i(ex_excepttype_i),
 		.current_inst_address_i(ex_current_inst_address_i),
 
-		//�ô�׶ε�ָ���Ƿ�ҪдCP0����������������
+		
   	.mem_cp0_reg_we(mem_cp0_reg_we_o),
 		.mem_cp0_reg_write_addr(mem_cp0_reg_write_addr_o),
 		.mem_cp0_reg_data(mem_cp0_reg_data_o),
 	
-		//��д�׶ε�ָ���Ƿ�ҪдCP0����������������
+		
   	.wb_cp0_reg_we(wb_cp0_reg_we_i),
 		.wb_cp0_reg_write_addr(wb_cp0_reg_write_addr_i),
 		.wb_cp0_reg_data(wb_cp0_reg_data_i),
@@ -352,12 +352,12 @@ module openmips(
 		.cp0_reg_data_i(cp0_data_o),
 		.cp0_reg_read_addr_o(cp0_raddr_i),
 		
-		//����һ��ˮ�����ݣ�����дCP0�еļĴ���
+		
 		.cp0_reg_we_o(ex_cp0_reg_we_o),
 		.cp0_reg_write_addr_o(ex_cp0_reg_write_addr_o),
 		.cp0_reg_data_o(ex_cp0_reg_data_o),	  
 			  
-	  //EXģ��������EX/MEMģ����Ϣ
+	  
 		.wd_o(ex_wd_o),
 		.wreg_o(ex_wreg_o),
 		.wdata_o(ex_wdata_o),
@@ -386,7 +386,7 @@ module openmips(
 		
 	);
 
-  //EX/MEMģ��
+  //EX/MEM例化
   ex_mem ex_mem0(
 		.clk(clk),
 		.rst(rst),
@@ -394,7 +394,7 @@ module openmips(
 	  .stall(stall),
 	  .flush(flush),
 	  
-		//����ִ�н׶�EXģ�����Ϣ	
+		
 		.ex_wd(ex_wd_o),
 		.ex_wreg(ex_wreg_o),
 		.ex_wdata(ex_wdata_o),
@@ -417,7 +417,7 @@ module openmips(
 		.hilo_i(hilo_temp_o),
 		.cnt_i(cnt_o),	
 
-		//�͵��ô�׶�MEMģ�����Ϣ
+		
 		.mem_wd(mem_wd_i),
 		.mem_wreg(mem_wreg_i),
 		.mem_wdata(mem_wdata_i),
@@ -442,11 +442,11 @@ module openmips(
 						       	
 	);
 	
-  //MEMģ������
+  //MEM例化
 	mem mem0(
 		.rst(rst),
 	
-		//����EX/MEMģ�����Ϣ	
+		
 		.wd_i(mem_wd_i),
 		.wreg_i(mem_wreg_i),
 		.wdata_i(mem_wdata_i),
@@ -458,12 +458,12 @@ module openmips(
 		.mem_addr_i(mem_mem_addr_i),
 		.reg2_i(mem_reg2_i),
 	
-		//����memory����Ϣ
+		
 		.mem_data_i(ram_data_i),
 
-		//LLbit_i��LLbit�Ĵ�����ֵ
+		
 		.LLbit_i(LLbit_o),
-		//����һ��������ֵ����д�׶ο���ҪдLLbit�����Ի�Ҫ��һ���ж�
+		
 		.wb_LLbit_we_i(wb_LLbit_we_i),
 		.wb_LLbit_value_i(wb_LLbit_value_i),
 
@@ -479,7 +479,7 @@ module openmips(
 		.cp0_cause_i(cp0_cause),
 		.cp0_epc_i(cp0_epc),
 		
-		//��д�׶ε�ָ���Ƿ�ҪдCP0����������������
+		
   	.wb_cp0_reg_we(wb_cp0_reg_we_i),
 		.wb_cp0_reg_write_addr(wb_cp0_reg_write_addr_i),
 		.wb_cp0_reg_data(wb_cp0_reg_data_i),	  
@@ -491,7 +491,7 @@ module openmips(
 		.cp0_reg_write_addr_o(mem_cp0_reg_write_addr_o),
 		.cp0_reg_data_o(mem_cp0_reg_data_o),			
 	  
-		//�͵�MEM/WBģ�����Ϣ
+		
 		.wd_o(mem_wd_o),
 		.wreg_o(mem_wreg_o),
 		.wdata_o(mem_wdata_o),
@@ -499,7 +499,7 @@ module openmips(
 		.lo_o(mem_lo_o),
 		.whilo_o(mem_whilo_o),
 		
-		//�͵�memory����Ϣ
+		
 		.mem_addr_o(ram_addr_o),
 		.mem_we_o(ram_we_o),
 		.mem_sel_o(ram_sel_o),
@@ -512,7 +512,7 @@ module openmips(
 		.current_inst_address_o(mem_current_inst_address_o)		
 	);
 
-  //MEM/WBģ��
+  //MEM/WB例化
 	mem_wb mem_wb0(
 		.clk(clk),
 		.rst(rst),
@@ -520,7 +520,7 @@ module openmips(
     .stall(stall),
     .flush(flush),
 
-		//���Էô�׶�MEMģ�����Ϣ	
+		
 		.mem_wd(mem_wd_o),
 		.mem_wreg(mem_wreg_o),
 		.mem_wdata(mem_wdata_o),
@@ -535,7 +535,7 @@ module openmips(
 		.mem_cp0_reg_write_addr(mem_cp0_reg_write_addr_o),
 		.mem_cp0_reg_data(mem_cp0_reg_data_o),					
 	
-		//�͵���д�׶ε���Ϣ
+		
 		.wb_wd(wb_wd_i),
 		.wb_wreg(wb_wreg_i),
 		.wb_wdata(wb_wdata_i),
@@ -556,12 +556,12 @@ module openmips(
 		.clk(clk),
 		.rst(rst),
 	
-		//д�˿�
+		
 		.we(wb_whilo_i),
 		.hi_i(wb_hi_i),
 		.lo_i(wb_lo_i),
 	
-		//���˿�1
+		
 		.hi_o(hi),
 		.lo_o(lo)	
 	);
@@ -574,7 +574,7 @@ module openmips(
  
 		.stallreq_from_id(stallreq_from_id),
 	
-  	//����ִ�н׶ε���ͣ����
+  	
 		.stallreq_from_ex(stallreq_from_ex),
 	  .new_pc(new_pc),
 	  .flush(flush),
@@ -600,11 +600,11 @@ module openmips(
 		.rst(rst),
 	  .flush(flush),
 	  
-		//д�˿�
+		
 		.LLbit_i(wb_LLbit_value_i),
 		.we(wb_LLbit_we_i),
 	
-		//���˿�1
+		
 		.LLbit_o(LLbit_o)
 	
 	);

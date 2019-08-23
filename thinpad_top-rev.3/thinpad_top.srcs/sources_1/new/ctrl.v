@@ -6,10 +6,10 @@ module ctrl(
 
 	input wire[31:0]             excepttype_i,
 	input wire[`RegBus]          cp0_epc_i,
-
+//译码阶段的暂停请求
 	input wire                   stallreq_from_id,
 
-  //����ִ�н׶ε���ͣ����
+  //执行阶段的暂停请求
 	input wire                   stallreq_from_ex,
 
 	output reg[`RegBus]          new_pc,

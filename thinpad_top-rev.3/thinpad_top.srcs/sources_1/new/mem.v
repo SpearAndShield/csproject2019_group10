@@ -5,7 +5,7 @@ module mem(
 
 	input wire										rst,
 	
-	//����ִ�н׶ε���Ϣ	
+	//来自执行阶段的信息
 	input wire[`RegAddrBus]       wd_i,
 	input wire                    wreg_i,
 	input wire[`RegBus]					  wdata_i,
@@ -17,16 +17,16 @@ module mem(
 	input wire[`RegBus]          mem_addr_i,
 	input wire[`RegBus]          reg2_i,
 	
-	//����memory����Ϣ
+	//
 	input wire[`RegBus]          mem_data_i,
 
-	//LLbit_i��LLbit�Ĵ�����ֵ
+	//
 	input wire                  LLbit_i,
-	//����һ��������ֵ����д�׶ο���ҪдLLbit�����Ի�Ҫ��һ���ж�
+	//
 	input wire                  wb_LLbit_we_i,
 	input wire                  wb_LLbit_value_i,
 
-	//Э������CP0��д�ź�
+	//
 	input wire                   cp0_reg_we_i,
 	input wire[4:0]              cp0_reg_write_addr_i,
 	input wire[`RegBus]          cp0_reg_data_i,
@@ -35,17 +35,17 @@ module mem(
 	input wire                   is_in_delayslot_i,
 	input wire[`RegBus]          current_inst_address_i,	
 	
-	//CP0�ĸ����Ĵ�����ֵ������һ�������µ�ֵ��Ҫ��ֹ��д�׶�ָ��дCP0
+	//
 	input wire[`RegBus]          cp0_status_i,
 	input wire[`RegBus]          cp0_cause_i,
 	input wire[`RegBus]          cp0_epc_i,
 
-	//��д�׶ε�ָ���Ƿ�ҪдCP0����������������
+	//
   input wire                    wb_cp0_reg_we,
 	input wire[4:0]               wb_cp0_reg_write_addr,
 	input wire[`RegBus]           wb_cp0_reg_data,
 	
-	//�͵���д�׶ε���Ϣ
+	//访存阶段的结果
 	output reg[`RegAddrBus]      wd_o,
 	output reg                   wreg_o,
 	output reg[`RegBus]					 wdata_o,
@@ -60,7 +60,7 @@ module mem(
 	output reg[4:0]              cp0_reg_write_addr_o,
 	output reg[`RegBus]          cp0_reg_data_o,
 	
-	//�͵�memory����Ϣ
+	//
 	output reg[`RegBus]          mem_addr_o,
 	output wire									 mem_we_o,
 	output reg[3:0]              mem_sel_o,
@@ -82,22 +82,22 @@ module mem(
 	reg[`RegBus]          cp0_epc;	
 	reg                   mem_we;
 
-	assign mem_we_o = mem_we & (~(|excepttype_o));
+	assign mem_we_o = mem_we & (~(|excepttype_o));//外部数据存储器RAM的读写信号
 	assign zero32 = `ZeroWord;
 
 	assign is_in_delayslot_o = is_in_delayslot_i;
 	assign current_inst_address_o = current_inst_address_i;
 	assign cp0_epc_o = cp0_epc;
 
-  //��ȡ���µ�LLbit��ֵ
+  //获取LLbit寄存器的最新值
 	always @ (*) begin
 		if(rst == `RstEnable) begin
 			LLbit <= 1'b0;
 		end else begin
-			if(wb_LLbit_we_i == 1'b1) begin
-				LLbit <= wb_LLbit_value_i;
+			if(wb_LLbit_we_i == 1'b1) begin //如果回血阶段的指令要写LLbit，
+				LLbit <= wb_LLbit_value_i;//写入的值是LLbit寄存器的最新值
 			end else begin
-				LLbit <= LLbit_i;
+				LLbit <= LLbit_i;//否则就是LLbit模块的最新值
 			end
 		end
 	end
@@ -401,12 +401,12 @@ module mem(
 					end
 				end				
 				default:		begin
-          //ʲôҲ����
+          //
 				end
 			endcase							
 		end    //if
 	end      //always
-
+//得到cp0中寄存器的最新值
 	always @ (*) begin
 		if(rst == `RstEnable) begin
 			cp0_status <= `ZeroWord;
@@ -441,7 +441,7 @@ module mem(
 		  cp0_cause <= cp0_cause_i;
 		end
 	end
-
+//给出最终的异常类型
 	always @ (*) begin
 		if(rst == `RstEnable) begin
 			excepttype_o <= `ZeroWord;

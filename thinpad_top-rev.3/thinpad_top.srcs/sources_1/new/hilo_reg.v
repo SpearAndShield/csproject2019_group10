@@ -6,12 +6,12 @@ module hilo_reg(
 	input	wire										clk,
 	input wire										rst,
 	
-	//д�˿�
+	//写端口
 	input wire										we,
 	input wire[`RegBus]				    hi_i,
 	input wire[`RegBus]						lo_i,
 	
-	//���˿�1
+	//读端口
 	output reg[`RegBus]           hi_o,
 	output reg[`RegBus]           lo_o
 	

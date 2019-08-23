@@ -6,11 +6,11 @@ module ex_mem(
 	input	wire										clk,
 	input wire										rst,
 
-	//���Կ���ģ�����Ϣ
+	
 	input wire[5:0]							 stall,	
 	input wire                   flush,
 	
-	//����ִ�н׶ε���Ϣ	
+	//来自执行阶段的信息
 	input wire[`RegAddrBus]       ex_wd,
 	input wire                    ex_wreg,
 	input wire[`RegBus]					 ex_wdata, 	
@@ -18,7 +18,7 @@ module ex_mem(
 	input wire[`RegBus]           ex_lo,
 	input wire                    ex_whilo, 	
 
-  //Ϊʵ�ּ��ء��ô�ָ������
+  
   input wire[`AluOpBus]        ex_aluop,
 	input wire[`RegBus]          ex_mem_addr,
 	input wire[`RegBus]          ex_reg2,
@@ -34,7 +34,7 @@ module ex_mem(
 	input wire                   ex_is_in_delayslot,
 	input wire[`RegBus]          ex_current_inst_address,
 	
-	//�͵��ô�׶ε���Ϣ
+	//送到访存阶段的信息
 	output reg[`RegAddrBus]      mem_wd,
 	output reg                   mem_wreg,
 	output reg[`RegBus]					 mem_wdata,
@@ -42,7 +42,7 @@ module ex_mem(
 	output reg[`RegBus]          mem_lo,
 	output reg                   mem_whilo,
 
-  //Ϊʵ�ּ��ء��ô�ָ������
+  
   output reg[`AluOpBus]        mem_aluop,
 	output reg[`RegBus]          mem_mem_addr,
 	output reg[`RegBus]          mem_reg2,
@@ -81,7 +81,7 @@ module ex_mem(
 			mem_excepttype <= `ZeroWord;
 			mem_is_in_delayslot <= `NotInDelaySlot;
 	    mem_current_inst_address <= `ZeroWord;
-		end else if(flush == 1'b1 ) begin
+		end else if(flush == 1'b1 ) begin//清楚流水线
 			mem_wd <= `NOPRegAddr;
 			mem_wreg <= `WriteDisable;
 		  mem_wdata <= `ZeroWord;
@@ -98,7 +98,8 @@ module ex_mem(
 			mem_is_in_delayslot <= `NotInDelaySlot;
 	    mem_current_inst_address <= `ZeroWord;
 	    hilo_o <= {`ZeroWord, `ZeroWord};
-			cnt_o <= 2'b00;	    	    				
+			cnt_o <= 2'b00;	    	    	
+			//执行阶段暂停，访存阶段继续，使用空指令			
 		end else if(stall[3] == `Stop && stall[4] == `NoStop) begin
 			mem_wd <= `NOPRegAddr;
 			mem_wreg <= `WriteDisable;
@@ -116,7 +117,8 @@ module ex_mem(
 			mem_cp0_reg_data <= `ZeroWord;	
 			mem_excepttype <= `ZeroWord;
 			mem_is_in_delayslot <= `NotInDelaySlot;
-	    mem_current_inst_address <= `ZeroWord;						  				    
+	    mem_current_inst_address <= `ZeroWord;	
+			//执行阶段继续					  				    
 		end else if(stall[3] == `NoStop) begin
 			mem_wd <= ex_wd;
 			mem_wreg <= ex_wreg;

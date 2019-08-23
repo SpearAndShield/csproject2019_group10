@@ -9,9 +9,9 @@ module inst_rom(
 	output reg[`InstBus]					inst
 	
 );
-
+    //定义一个指令储存器数组
 	reg[`InstBus]  inst_mem[0:`InstMemNum-1];
-
+    //初始化指令储存器
 	initial $readmemh ( "inst_rom.data", inst_mem );
 
 	always @ (*) begin

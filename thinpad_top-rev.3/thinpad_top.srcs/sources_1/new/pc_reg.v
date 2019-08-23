@@ -21,9 +21,9 @@ module pc_reg(
 		if (ce == `ChipDisable) begin //指令储存器禁用
 			pc <= 32'h00000000; //pc为0
 		end else begin
-			if(flush == 1'b1) begin
-				pc <= new_pc;
-			end else if(stall[0] == `NoStop) begin
+			if(flush == 1'b1) begin //flush为1，异常发生，从CRTL模块给出异常处理
+				pc <= new_pc;//从例程入口地址取指
+			end else if(stall[0] == `NoStop) begin //stall[0]为NoStop时，pc加4否则不变
 				if(branch_flag_i == `Branch) begin
 					pc <= branch_target_address_i;
 				end else begin

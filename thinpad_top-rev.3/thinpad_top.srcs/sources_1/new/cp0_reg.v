@@ -29,29 +29,29 @@ module cp0_reg(
 	output reg                   timer_int_o    
 	
 );
-
+	//CPO对寄存器的写操作
 	always @ (posedge clk) begin
-		if(rst == `RstEnable) begin
+		if(rst == `RstEnable) begin //初始值都为0
 			count_o <= `ZeroWord;
 			compare_o <= `ZeroWord;
-			//status�Ĵ�����CUΪ0001����ʾЭ������CP0����
+			
 			status_o <= 32'b00010000000000000000000000000000;
 			cause_o <= `ZeroWord;
 			epc_o <= `ZeroWord;
-			//config�Ĵ�����BEΪ1����ʾBig-Endian��MTΪ00����ʾû��MMU
+			
 			config_o <= 32'b00000000000000001000000000000000;
-			//��������L����Ӧ����0x48��������0x1���������ͣ��汾����1.0
+			
 			prid_o <= 32'b00000000010011000000000100000010;
       timer_int_o <= `InterruptNotAssert;
 		end else begin
-		  count_o <= count_o + 1 ;
-		  cause_o[15:10] <= int_i;
-		
+		  count_o <= count_o + 1 ;//count寄存器的值每个时钟周期+1
+		  cause_o[15:10] <= int_i;//cause的10-15bits保存外部中断声明
+			//当compare寄存器不为0，count寄存器的值等于compare寄存器的值时
 			if(compare_o != `ZeroWord && count_o == compare_o) begin
-				timer_int_o <= `InterruptAssert;
+				timer_int_o <= `InterruptAssert;//输出信号为1 中断发生
 			end
 					
-			if(we_i == `WriteEnable) begin
+			if(we_i == `WriteEnable) begin //一系列写操作
 				case (waddr_i) 
 					`CP0_REG_COUNT:		begin
 						count_o <= data_i;
@@ -67,17 +67,17 @@ module cp0_reg(
 					`CP0_REG_EPC:	begin
 						epc_o <= data_i;
 					end
-					`CP0_REG_CAUSE:	begin
-					  //cause�Ĵ���ֻ��IP[1:0]��IV��WP�ֶ��ǿ�д��
+					`CP0_REG_CAUSE:	begin //写cause寄存器
+					  //只有部分字段可写
 						cause_o[9:8] <= data_i[9:8];
 						cause_o[23] <= data_i[23];
 						cause_o[22] <= data_i[22];
 					end					
 				endcase  //case addr_i
 			end
-
+		
 			case (excepttype_i)
-				32'h00000001:		begin
+				32'h00000001:		begin //外部中断
 					if(is_in_delayslot_i == `InDelaySlot ) begin
 						epc_o <= current_inst_addr_i - 4 ;
 						cause_o[31] <= 1'b1;
@@ -89,7 +89,7 @@ module cp0_reg(
 					cause_o[6:2] <= 5'b00000;
 					
 				end
-				32'h00000008:		begin
+				32'h00000008:		begin //syscall
 					if(status_o[1] == 1'b0) begin
 						if(is_in_delayslot_i == `InDelaySlot ) begin
 							epc_o <= current_inst_addr_i - 4 ;
@@ -102,7 +102,7 @@ module cp0_reg(
 					status_o[1] <= 1'b1;
 					cause_o[6:2] <= 5'b01000;			
 				end
-				32'h0000000a:		begin
+				32'h0000000a:		begin //无效指令异常
 					if(status_o[1] == 1'b0) begin
 						if(is_in_delayslot_i == `InDelaySlot ) begin
 							epc_o <= current_inst_addr_i - 4 ;
@@ -115,7 +115,7 @@ module cp0_reg(
 					status_o[1] <= 1'b1;
 					cause_o[6:2] <= 5'b01010;					
 				end
-				32'h0000000d:		begin
+				32'h0000000d:		begin //自陷异常
 					if(status_o[1] == 1'b0) begin
 						if(is_in_delayslot_i == `InDelaySlot ) begin
 							epc_o <= current_inst_addr_i - 4 ;
@@ -128,7 +128,7 @@ module cp0_reg(
 					status_o[1] <= 1'b1;
 					cause_o[6:2] <= 5'b01101;					
 				end
-				32'h0000000c:		begin
+				32'h0000000c:		begin //溢出异常
 					if(status_o[1] == 1'b0) begin
 						if(is_in_delayslot_i == `InDelaySlot ) begin
 							epc_o <= current_inst_addr_i - 4 ;
@@ -141,7 +141,7 @@ module cp0_reg(
 					status_o[1] <= 1'b1;
 					cause_o[6:2] <= 5'b01100;					
 				end				
-				32'h0000000e:   begin
+				32'h0000000e:   begin //eret
 					status_o[1] <= 1'b0;
 				end
 				default:				begin
@@ -150,7 +150,8 @@ module cp0_reg(
 			
 		end    //if
 	end      //always
-			
+	
+		//对cp0中寄存器的读操作	
 	always @ (*) begin
 		if(rst == `RstEnable) begin
 			data_o <= `ZeroWord;

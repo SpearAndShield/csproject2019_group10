@@ -6,10 +6,10 @@ module mem_wb(
 	input	wire										clk,
 	input wire										rst,
 
-  //���Կ���ģ�����Ϣ
+  //
 	input wire[5:0]               stall,	
   input wire                    flush,	
-	//���Էô�׶ε���Ϣ	
+	//访存阶段的结果
 	input wire[`RegAddrBus]       mem_wd,
 	input wire                    mem_wreg,
 	input wire[`RegBus]					 mem_wdata,
@@ -24,14 +24,14 @@ module mem_wb(
 	input wire[4:0]              mem_cp0_reg_write_addr,
 	input wire[`RegBus]          mem_cp0_reg_data,			
 
-	//�͵���д�׶ε���Ϣ
+	//送到写回阶段的信息
 	output reg[`RegAddrBus]      wb_wd,
 	output reg                   wb_wreg,
 	output reg[`RegBus]					 wb_wdata,
 	output reg[`RegBus]          wb_hi,
 	output reg[`RegBus]          wb_lo,
 	output reg                   wb_whilo,
-
+ //
 	output reg                  wb_LLbit_we,
 	output reg                  wb_LLbit_value,
 
@@ -55,7 +55,7 @@ module mem_wb(
 			wb_cp0_reg_we <= `WriteDisable;
 			wb_cp0_reg_write_addr <= 5'b00000;
 			wb_cp0_reg_data <= `ZeroWord;			
-		end else if(flush == 1'b1 ) begin
+		end else if(flush == 1'b1 ) begin//清除流水线
 			wb_wd <= `NOPRegAddr;
 			wb_wreg <= `WriteDisable;
 		  wb_wdata <= `ZeroWord;
@@ -66,7 +66,8 @@ module mem_wb(
 		  wb_LLbit_value <= 1'b0;	
 			wb_cp0_reg_we <= `WriteDisable;
 			wb_cp0_reg_write_addr <= 5'b00000;
-			wb_cp0_reg_data <= `ZeroWord;				  				  	  	
+			wb_cp0_reg_data <= `ZeroWord;		
+			//访存阶段暂停，回写阶段继续		  				  	  	
 		end else if(stall[4] == `Stop && stall[5] == `NoStop) begin
 			wb_wd <= `NOPRegAddr;
 			wb_wreg <= `WriteDisable;
@@ -78,7 +79,8 @@ module mem_wb(
 		  wb_LLbit_value <= 1'b0;	
 			wb_cp0_reg_we <= `WriteDisable;
 			wb_cp0_reg_write_addr <= 5'b00000;
-			wb_cp0_reg_data <= `ZeroWord;					  		  	  	  
+			wb_cp0_reg_data <= `ZeroWord;		
+			//访存阶段继续			  		  	  	  
 		end else if(stall[4] == `NoStop) begin
 			wb_wd <= mem_wd;
 			wb_wreg <= mem_wreg;
