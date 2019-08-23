@@ -7,32 +7,33 @@ module id(
 	input wire[`InstAddrBus]			pc_i,
 	input wire[`InstBus]          inst_i,
 
-  //����ִ�н׶ε�ָ���һЩ��Ϣ�����ڽ��load���
+  
   input wire[`AluOpBus]					ex_aluop_i,
 
-	//����ִ�н׶ε�ָ��Ҫд���Ŀ�ļĴ�����Ϣ
+	
 	input wire										ex_wreg_i,
 	input wire[`RegBus]						ex_wdata_i,
 	input wire[`RegAddrBus]       ex_wd_i,
 	
-	//���ڷô�׶ε�ָ��Ҫд���Ŀ�ļĴ�����Ϣ
+
 	input wire										mem_wreg_i,
 	input wire[`RegBus]						mem_wdata_i,
 	input wire[`RegAddrBus]       mem_wd_i,
-	
+
+	//读取的regfile的值
 	input wire[`RegBus]           reg1_data_i,
 	input wire[`RegBus]           reg2_data_i,
 
-	//�����һ��ָ����ת��ָ���ô��һ��ָ���������ʱ��is_in_delayslotΪtrue
+	
 	input wire                    is_in_delayslot_i,
 
-	//�͵�regfile����Ϣ
+	//输出到regfile的信息
 	output reg                    reg1_read_o,
 	output reg                    reg2_read_o,     
 	output reg[`RegAddrBus]       reg1_addr_o,
 	output reg[`RegAddrBus]       reg2_addr_o, 	      
 	
-	//�͵�ִ�н׶ε���Ϣ
+	//送到执行阶段的信息
 	output reg[`AluOpBus]         aluop_o,
 	output reg[`AluSelBus]        alusel_o,
 	output reg[`RegBus]           reg1_o,
@@ -53,12 +54,14 @@ module id(
 	
 	output wire                   stallreq	
 );
-
+//指令码
   wire[5:0] op = inst_i[31:26];
   wire[4:0] op2 = inst_i[10:6];
   wire[5:0] op3 = inst_i[5:0];
   wire[4:0] op4 = inst_i[20:16];
+  //立即数
   reg[`RegBus]	imm;
+  //指令有效标示
   reg instvalid;
   wire[`RegBus] pc_plus_8;
   wire[`RegBus] pc_plus_4;
@@ -86,16 +89,15 @@ module id(
 
   assign inst_o = inst_i;
 
-  //exceptiontype�ĵ�8bit����ⲿ�жϣ���9bit��ʾ�Ƿ���syscallָ��
-  //��10bit��ʾ�Ƿ�����Чָ���11bit��ʾ�Ƿ���trapָ��
+  
   assign excepttype_o = {19'b0,excepttype_is_eret,2'b0,
   												instvalid, excepttype_is_syscall,8'b0};
   //assign excepttye_is_trapinst = 1'b0;
   
 	assign current_inst_address_o = pc_i;
-    
+   //对指令进行译码 
 	always @ (*) begin	
-		if (rst == `RstEnable) begin
+		if (rst == `RstEnable) begin //
 			aluop_o <= `EXE_NOP_OP;
 			alusel_o <= `EXE_RES_NOP;
 			wd_o <= `NOPRegAddr;
@@ -120,8 +122,8 @@ module id(
 			instvalid <= `InstInvalid;	   
 			reg1_read_o <= 1'b0;
 			reg2_read_o <= 1'b0;
-			reg1_addr_o <= inst_i[25:21];
-			reg2_addr_o <= inst_i[20:16];		
+			reg1_addr_o <= inst_i[25:21]; //默认通过regfile读端口1读取的寄存器地址
+			reg2_addr_o <= inst_i[20:16];//默认通过regfile读端口2读取的寄存器地址		
 			imm <= `ZeroWord;
 			link_addr_o <= `ZeroWord;
 			branch_target_address_o <= `ZeroWord;
@@ -134,9 +136,17 @@ module id(
 		    	case (op2)
 		    		5'b00000:			begin
 		    			case (op3)
-		    				`EXE_OR:	begin
-		    					wreg_o <= `WriteEnable;		aluop_o <= `EXE_OR_OP;
-		  						alusel_o <= `EXE_RES_LOGIC; 	reg1_read_o <= 1'b1;	reg2_read_o <= 1'b1;
+		    				`EXE_OR:	begin //判断指令
+							//将写使能开启，将结果写入目的寄存器
+		    					wreg_o <= `WriteEnable;	
+								//运算子类型是或	
+								aluop_o <= `EXE_OR_OP;
+								//运算类型是逻辑运算
+		  						alusel_o <= `EXE_RES_LOGIC; 	
+								//通过regfile的读端口1读取寄存器
+								reg1_read_o <= 1'b1;	
+								//通过regfile的读端口1读取寄存器
+								reg2_read_o <= 1'b1;
 		  						instvalid <= `InstValid;	
 								end  
 		    				`EXE_AND:	begin
@@ -328,10 +338,12 @@ module id(
 								end	
 					 endcase									
 					end									  
-		  	`EXE_ORI:			begin                        //ORIָ��
+		  	`EXE_ORI:			begin                        //ORI运算
 		  		wreg_o <= `WriteEnable;		aluop_o <= `EXE_OR_OP;
-		  		alusel_o <= `EXE_RES_LOGIC; reg1_read_o <= 1'b1;	reg2_read_o <= 1'b0;	  	
+		  		alusel_o <= `EXE_RES_LOGIC; reg1_read_o <= 1'b1;	reg2_read_o <= 1'b0;//不需要通过regfile读端口2读取寄存器  	
+					//取立即数
 					imm <= {16'h0, inst_i[15:0]};		wd_o <= inst_i[20:16];
+					//设为有效指令
 					instvalid <= `InstValid;	
 		  	end
 		  	`EXE_ANDI:			begin
@@ -686,7 +698,7 @@ module id(
 		end       //if
 	end         //always
 	
-
+//确定进行运算的源操作数1
 	always @ (*) begin
 			stallreq_for_reg1_loadrelate <= `NoStop;	
 		if(rst == `RstEnable) begin
@@ -700,15 +712,15 @@ module id(
 		end else if((reg1_read_o == 1'b1) && (mem_wreg_i == 1'b1) 
 								&& (mem_wd_i == reg1_addr_o)) begin
 			reg1_o <= mem_wdata_i; 			
-	  end else if(reg1_read_o == 1'b1) begin
-	  	reg1_o <= reg1_data_i;
+	  end else if(reg1_read_o == 1'b1) begin//regfile端口1的是能信号为1
+	  	reg1_o <= reg1_data_i;//regfile读端口1的输出值作为原操作数1
 	  end else if(reg1_read_o == 1'b0) begin
-	  	reg1_o <= imm;
+	  	reg1_o <= imm;//否则立即数作为源操作数1
 	  end else begin
 	    reg1_o <= `ZeroWord;
 	  end
 	end
-	
+//确定进行运算的源操作数2
 	always @ (*) begin
 			stallreq_for_reg2_loadrelate <= `NoStop;
 		if(rst == `RstEnable) begin

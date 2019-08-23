@@ -6,11 +6,11 @@ module id_ex(
 	input	wire										clk,
 	input wire										rst,
 
-	//���Կ���ģ�����Ϣ
+	//
 	input wire[5:0]							 stall,
 	input wire                   flush,
 	
-	//������׶δ��ݵ���Ϣ
+	//
 	input wire[`AluOpBus]         id_aluop,
 	input wire[`AluSelBus]        id_alusel,
 	input wire[`RegBus]           id_reg1,

@@ -1,16 +1,16 @@
-//ȫ��
-`define RstEnable 1'b1
-`define RstDisable 1'b0
-`define ZeroWord 32'h00000000
-`define WriteEnable 1'b1
-`define WriteDisable 1'b0
-`define ReadEnable 1'b1
-`define ReadDisable 1'b0
-`define AluOpBus 7:0
-`define AluSelBus 2:0
-`define InstValid 1'b0
-`define InstInvalid 1'b1
-`define Stop 1'b1
+
+`define RstEnable 1'b1 //复位信号有效
+`define RstDisable 1'b0 //复位信号无效
+`define ZeroWord 32'h00000000 //32位的数值0
+`define WriteEnable 1'b1 //使能写
+`define WriteDisable 1'b0 //禁止写
+`define ReadEnable 1'b1 //使能读
+`define ReadDisable 1'b0 //禁止读
+`define AluOpBus 7:0 //译码阶段的输出aluop_o的宽度
+`define AluSelBus 2:0 //译码阶段的输出alusel_o的宽度
+`define InstValid 1'b0 //指令有效
+`define InstInvalid 1'b1 //指令无效
+`define Stop 1'b1 //
 `define NoStop 1'b0
 `define InDelaySlot 1'b1
 `define NotInDelaySlot 1'b0
@@ -19,14 +19,14 @@
 `define InterruptAssert 1'b1
 `define InterruptNotAssert 1'b0
 `define TrapAssert 1'b1
-`define TrapNotAssert 1'b0
-`define True_v 1'b1
-`define False_v 1'b0
-`define ChipEnable 1'b1
-`define ChipDisable 1'b0
+`define TrapNotAssert 1'b0 
+`define True_v 1'b1 //真
+`define False_v 1'b0 //假
+`define ChipEnable 1'b1 //芯片使能
+`define ChipDisable 1'b0 //芯片禁止
 
 
-//ָ��
+//指令的定义
 `define EXE_AND  6'b100100
 `define EXE_OR   6'b100101
 `define EXE_XOR 6'b100110
@@ -240,30 +240,30 @@
 `define EXE_RES_NOP 3'b000
 
 
-//ָ��洢��inst_rom
-`define InstAddrBus 31:0
-`define InstBus 31:0
-`define InstMemNum 131071
-`define InstMemNumLog2 17
+//ROM定义
+`define InstAddrBus 31:0 //地址总线宽度
+`define InstBus 31:0 //数据总线宽度
+`define InstMemNum 131071//实际大小128kb
+`define InstMemNumLog2 17//实际使用的地址线宽度
 
-//���ݴ洢��data_ram
-`define DataAddrBus 31:0
-`define DataBus 31:0
-`define DataMemNum 131071
+
+`define DataAddrBus 31:0//
+`define DataBus 31:0 //
+`define DataMemNum 131071 //
 `define DataMemNumLog2 17
 `define ByteWidth 7:0
 
-//ͨ�üĴ���regfile
-`define RegAddrBus 4:0
-`define RegBus 31:0
-`define RegWidth 32
-`define DoubleRegWidth 64
-`define DoubleRegBus 63:0
-`define RegNum 32
-`define RegNumLog2 5
+//Regfile定义
+`define RegAddrBus 4:0 //地址线宽度
+`define RegBus 31:0 //数据线宽度
+`define RegWidth 32 //通用寄存器宽度
+`define DoubleRegWidth 64 //两倍通用寄存器宽度
+`define DoubleRegBus 63:0 //两倍通用寄存器的数据线宽度
+`define RegNum 32 //通用寄存器的数量
+`define RegNumLog2 5 //寻址通用寄存器使用的地址位数
 `define NOPRegAddr 5'b00000
 
-//����div
+//����div
 `define DivFree 2'b00
 `define DivByZero 2'b01
 `define DivOn 2'b10
@@ -273,11 +273,11 @@
 `define DivStart 1'b1
 `define DivStop 1'b0
 
-//CP0�Ĵ�����ַ
-`define CP0_REG_COUNT    5'b01001        //�ɶ�д
-`define CP0_REG_COMPARE    5'b01011      //�ɶ�д
-`define CP0_REG_STATUS    5'b01100       //�ɶ�д
-`define CP0_REG_CAUSE    5'b01101        //ֻ��
-`define CP0_REG_EPC    5'b01110          //�ɶ�д
-`define CP0_REG_PrId    5'b01111         //ֻ��
-`define CP0_REG_CONFIG    5'b10000       //ֻ��
+//CP0�Ĵ�����ַ
+`define CP0_REG_COUNT    5'b01001        //�ɶ�д
+`define CP0_REG_COMPARE    5'b01011      //�ɶ�д
+`define CP0_REG_STATUS    5'b01100       //�ɶ�д
+`define CP0_REG_CAUSE    5'b01101        //ֻ��
+`define CP0_REG_EPC    5'b01110          //�ɶ�д
+`define CP0_REG_PrId    5'b01111         //ֻ��
+`define CP0_REG_CONFIG    5'b10000       //ֻ��
